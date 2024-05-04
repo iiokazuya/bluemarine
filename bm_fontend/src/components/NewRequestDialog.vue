@@ -25,13 +25,27 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import http from "@/plugins/http.js";
+
+const emit = defineEmits([
+	"post"
+]);
+
 const dialog = ref(false);
 const summary = ref("");
 const detail = ref("");
 const hasEmptyForm = computed(() => {
 	return (summary.value == "" || detail.value == "");
 });
-function onClickReport() {
+
+async function onClickReport() {
+	const data = {
+		summary: summary.value,
+		detail: detail.value,
+		userID: "suzuki"
+	};
+	await http.postWait("/requests", data);
+	emit("post");
 	dialog.value = false;
 }
 </script>

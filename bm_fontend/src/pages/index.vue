@@ -4,17 +4,17 @@
 		<h1>Dashboard</h1>
 		<h2>Bugs</h2>
 		<DataTable :items="bugs" />
-		<BugReportDialog />
+		<BugReportDialog @post="refleshBugs" />
 		<h2>Requests</h2>
 		<DataTable :items="requests" />
-		<NewRequestDialog />
+		<NewRequestDialog @post="refleshReports" />
 		<h2>Tasks</h2>
 		<DataTable :items="tasks" />
-		<NewTaskDialog />
+		<NewTaskDialog @post="refleshTasks" />
 	</div>
 </template>
 
-<style sooped>
+<style scoped>
 h1, h2 {
 	margin: 8px;
 	color: #0099CC;
@@ -22,17 +22,74 @@ h1, h2 {
 </style>
 
 <script setup>
-const bugs = [
-	{ id: 0, summary: "any buttons dont work", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-	{ id: 1, summary: "any forms dont work", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-	{ id: 2, summary: "any employees dont work", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-];
-const requests = [
-	{ id: 0, summary: "make all buttons work", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-	{ id: 1, summary: "make all forms work", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-	{ id: 2, summary: "make all employees work harder!", reporter: "ken", reported: "2000/01/01 00:00:00", updated: "2000/01/01 00:00:00", assignee: "john", progress: "not yet" },
-];
-const tasks = [
-	{},
-];
+import { onMounted, reactive } from 'vue';
+import http from "@/plugins/http.js";
+
+const bugs = reactive([]);
+const requests = reactive([]);
+const tasks = reactive([]);
+
+onMounted(async () => {
+	await getBugs();
+	await getReports();
+	await getTasks();
+});
+
+async function getBugs() {
+	bugs.splice(0);
+	const response = await http.getWait("/bugs", {});
+	response.data.forEach(bug => {
+		bugs.push({
+			id: bug.id,
+			summary: bug.summary,
+			reported: new Date(bug.created).toLocaleString(),
+			updated: new Date(bug.updated).toLocaleString(),
+			assignee: bug.assignee,
+			progress: bug.progress
+		});
+	});
+}
+
+async function getReports() {
+	requests.splice(0);
+	const resRequest = await http.getWait("/requests", {});
+	resRequest.data.forEach(request => {
+		requests.push({
+			id: request.id,
+			summary: request.summary,
+			reported: new Date(request.created).toLocaleString(),
+			updated: new Date(request.updated).toLocaleString(),
+			assignee: request.assignee,
+			progress: request.progress
+		});
+	});
+}
+
+async function getTasks() {
+	tasks.splice(0);
+	const resTask = await http.getWait("/tasks", {});
+	resTask.data.forEach(task => {
+		tasks.push({
+			id: task.id,
+			summary: task.summary,
+			deadline: new Date(task.deadline).toLocaleDateString(),
+			reported: new Date(task.created).toLocaleString(),
+			updated: new Date(task.updated).toLocaleString(),
+			assignee: task.assignee,
+			progress: task.progress
+		});
+	});
+}
+
+function refleshBugs() {
+	setTimeout(getBugs, 1000);
+}
+
+function refleshReports() {
+	setTimeout(getReports, 1000);
+}
+
+function refleshTasks() {
+	setTimeout(getTasks, 1000);
+}
 </script>
