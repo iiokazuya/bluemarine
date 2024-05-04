@@ -1,6 +1,6 @@
 GET http://localhost:3000
 
-###
+### Users
 GET http://localhost:3000/users
 
 ###
@@ -23,4 +23,158 @@ Content-Type: application/json
 {
 	"password": "katouZ",
 	"name": "加藤"
+}
+
+### Bugs
+GET http://localhost:3000/bugs
+
+###
+GET http://localhost:3000/bugs/1
+
+###
+POST http://localhost:3000/bugs
+Content-Type: application/json
+
+{
+	"summary": "bug 1",
+	"detail": "bug bug bug",
+	"repro": "repro",
+	"userID": "suzuki"
+}
+
+###
+put http://localhost:3000/bugs/1
+Content-Type: application/json
+
+{
+	"summary": "bug 2",
+	"detail": "bug bug bug",
+	"repro": "repro",
+	"userID": "suzuki"
+}
+
+###
+GET http://localhost:3000/bugs/1/messages
+
+###
+GET http://localhost:3000/bugs/1/messages/1
+
+###
+POST http://localhost:3000/bugs/1/messages
+Content-Type: application/json
+
+{
+	"message": "message1",
+	"userID": "suzuki"
+}
+
+###
+PUT http://localhost:3000/bugs/1/messages/1
+Content-Type: application/json
+
+{
+	"message": "message12",
+	"userID": "suzuki"
+}
+
+### Requests
+GET http://localhost:3000/requests
+
+###
+GET http://localhost:3000/requests/1
+
+###
+POST http://localhost:3000/requests
+Content-Type: application/json
+
+{
+	"summary": "requests 1",
+	"detail": "requests requests requests",
+	"userID": "suzuki"
+}
+
+###
+put http://localhost:3000/requests/1
+Content-Type: application/json
+
+{
+	"summary": "requests 2",
+	"detail": "requests requests requests",
+	"userID": "suzuki"
+}
+
+###
+GET http://localhost:3000/requests/1/messages
+
+###
+GET http://localhost:3000/requests/1/messages/1
+
+###
+POST http://localhost:3000/requests/1/messages
+Content-Type: application/json
+
+{
+	"message": "message1",
+	"userID": "suzuki"
+}
+
+###
+PUT http://localhost:3000/requests/1/messages/1
+Content-Type: application/json
+
+{
+	"message": "message12",
+	"userID": "suzuki"
+}
+
+### Tasks
+GET http://localhost:3000/tasks
+
+###
+GET http://localhost:3000/tasks/1
+
+###
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+	"summary": "tasks 1",
+	"detail": "tasks tasks tasks",
+	"deadline": "2024/5/5",
+	"userID": "suzuki"
+}
+
+###
+PUT http://localhost:3000/tasks/1
+Content-Type: application/json
+
+{
+	"summary": "tasks 2",
+	"detail": "tasks tasks tasks",
+	"deadline": "2024/5/6",
+	"userID": "suzuki"
+}
+
+###
+GET http://localhost:3000/tasks/1/messages
+
+###
+GET http://localhost:3000/tasks/1/messages/1
+
+###
+POST http://localhost:3000/tasks/1/messages
+Content-Type: application/json
+
+{
+	"message": "message1",
+	"userID": "suzuki"
+}
+
+###
+PUT http://localhost:3000/tasks/1/messages/1
+Content-Type: application/json
+
+{
+	"message": "message12",
+	"userID": "suzuki"
 }
